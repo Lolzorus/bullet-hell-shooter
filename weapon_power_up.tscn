@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://dfks1k6h28jkf"]
+
+[ext_resource type="Script" path="res://weapon power up.gd" id="1_vp3k7"]
+[ext_resource type="Texture2D" uid="uid://cb61wxnen4r14" path="res://player ship/powerup.png" id="2_liu1g"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8cqgi"]
+size = Vector2(50, 52)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b2b3p"]
+size = Vector2(73, 76)
+
+[node name="weapon power up" type="CharacterBody2D"]
+script = ExtResource("1_vp3k7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_liu1g")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_8cqgi")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_b2b3p")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

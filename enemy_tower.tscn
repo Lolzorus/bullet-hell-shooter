@@ -1,0 +1,118 @@
+[gd_scene load_steps=17 format=3 uid="uid://cwk16krkfvbmc"]
+
+[ext_resource type="Script" path="res://enemy tower.gd" id="1_yf8aw"]
+[ext_resource type="PackedScene" uid="uid://cmv2uwv8suw38" path="res://enemy_bullet.tscn" id="2_axyvv"]
+[ext_resource type="Texture2D" uid="uid://bxfrepkpexli8" path="res://enemies/enemytower.png" id="2_q6arq"]
+[ext_resource type="AudioStream" uid="uid://ccdmyg1fpl1q5" path="res://sound/medium-explosion-40472.mp3" id="3_lh8fy"]
+[ext_resource type="Texture2D" uid="uid://c7j3m5qrrua3f" path="res://enemies/explosion-sheet.png" id="4_tvg0s"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f4wf2"]
+size = Vector2(126, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bf6pq"]
+size = Vector2(8644, 5058)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gw54j"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wg8ry"]
+atlas = ExtResource("4_tvg0s")
+region = Rect2(0, 0, 400, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jrj7a"]
+atlas = ExtResource("4_tvg0s")
+region = Rect2(400, 0, 400, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b2eth"]
+atlas = ExtResource("4_tvg0s")
+region = Rect2(800, 0, 400, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bd5vt"]
+atlas = ExtResource("4_tvg0s")
+region = Rect2(1200, 0, 400, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lc1ah"]
+atlas = ExtResource("4_tvg0s")
+region = Rect2(1600, 0, 400, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_optd5"]
+atlas = ExtResource("4_tvg0s")
+region = Rect2(2000, 0, 400, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2sxna"]
+atlas = ExtResource("4_tvg0s")
+region = Rect2(2400, 0, 400, 300)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6ngsn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wg8ry")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrj7a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b2eth")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bd5vt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lc1ah")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_optd5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2sxna")
+}],
+"loop": false,
+"name": &"default",
+"speed": 15.0
+}]
+
+[node name="enemy tower" type="CharacterBody2D"]
+scale = Vector2(0.5, 0.5)
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("1_yf8aw")
+bullet_node = ExtResource("2_axyvv")
+death_sound = ExtResource("3_lh8fy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-4, 3)
+shape = SubResource("RectangleShape2D_f4wf2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_q6arq")
+
+[node name="PlayerDetection" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
+position = Vector2(12, 19)
+shape = SubResource("RectangleShape2D_bf6pq")
+
+[node name="timerbullet" type="Timer" parent="."]
+wait_time = 0.05
+autostart = true
+
+[node name="CollisionToPlayer" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionToPlayer"]
+shape = SubResource("RectangleShape2D_gw54j")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="explosion1" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_6ngsn")
+frame = 6
+frame_progress = 1.0
+
+[connection signal="body_entered" from="PlayerDetection" to="." method="_on_player_detection_body_entered"]
+[connection signal="timeout" from="timerbullet" to="." method="_on_timerbullet_timeout"]
+[connection signal="body_entered" from="CollisionToPlayer" to="." method="_on_collision_to_player_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="animation_finished" from="explosion1" to="." method="_on_explosion_1_animation_finished"]

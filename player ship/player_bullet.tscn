@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://7q6hcfy041gn"]
+
+[ext_resource type="Script" path="res://player ship/player_bullet.gd" id="1_11tgy"]
+[ext_resource type="Texture2D" uid="uid://xfok0a157l2x" path="res://player ship/shooting laser-sheet.png" id="2_uke1h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xv8tb"]
+size = Vector2(45, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2yehf"]
+atlas = ExtResource("2_uke1h")
+region = Rect2(0, 0, 211, 92)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nx7k1"]
+atlas = ExtResource("2_uke1h")
+region = Rect2(211, 0, 211, 92)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gerd8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2yehf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nx7k1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 25.0
+}]
+
+[node name="Player bullet" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_11tgy")
+
+[node name="bullet_shape" type="CollisionShape2D" parent="."]
+position = Vector2(17.5, -1)
+shape = SubResource("RectangleShape2D_xv8tb")
+
+[node name="bullet animation" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+sprite_frames = SubResource("SpriteFrames_gerd8")
+frame_progress = 0.810431
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(572, 320.5)
+scale = Vector2(58.2, 33.05)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]

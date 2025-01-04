@@ -1,0 +1,86 @@
+[gd_scene load_steps=12 format=3 uid="uid://i4vks5xcjhnq"]
+
+[ext_resource type="Script" path="res://FiniteStateMachine.gd" id="1_a8om7"]
+[ext_resource type="Script" path="res://boss.gd" id="1_svquh"]
+[ext_resource type="Script" path="res://Idle.gd" id="2_7vawy"]
+[ext_resource type="PackedScene" uid="uid://cmv2uwv8suw38" path="res://enemy_bullet.tscn" id="2_n3vww"]
+[ext_resource type="Script" path="res://5.gd" id="3_4q2ne"]
+[ext_resource type="Texture2D" uid="uid://dbyiuhiml3iiu" path="res://enemies/boss.png" id="3_g41nv"]
+[ext_resource type="Script" path="res://4.gd" id="7_lglmo"]
+[ext_resource type="PackedScene" uid="uid://qcdnbyxmf2jl" path="res://patrouille.tscn" id="8_iaifl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dubnf"]
+size = Vector2(162, 120)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qfyt1"]
+size = Vector2(3261, 1878)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h67s7"]
+bg_color = Color(0.603922, 0, 0, 1)
+
+[node name="Boss" type="CharacterBody2D" node_paths=PackedStringArray("wander_direction1")]
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("1_svquh")
+bullet_node = ExtResource("2_n3vww")
+wander_direction1 = NodePath("patrouille")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3, 2)
+shape = SubResource("RectangleShape2D_dubnf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1, 1)
+texture = ExtResource("3_g41nv")
+
+[node name="FiniteStateMachine" type="Node2D" parent="."]
+script = ExtResource("1_a8om7")
+
+[node name="Idle" type="Node2D" parent="FiniteStateMachine"]
+script = ExtResource("2_7vawy")
+
+[node name="5" type="Node2D" parent="FiniteStateMachine"]
+script = ExtResource("3_4q2ne")
+
+[node name="4" type="Node2D" parent="FiniteStateMachine"]
+script = ExtResource("7_lglmo")
+
+[node name="Speed" type="Timer" parent="."]
+wait_time = 0.015
+
+[node name="PlayerDetection" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
+unique_name_in_owner = true
+position = Vector2(-1, 2)
+shape = SubResource("RectangleShape2D_qfyt1")
+
+[node name="Duration" type="Timer" parent="."]
+wait_time = 5.0
+
+[node name="debug" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="patrouille" parent="." instance=ExtResource("8_iaifl")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer"]
+offset_left = 177.0
+offset_top = 28.0
+offset_right = 1027.0
+offset_bottom = 55.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_h67s7")
+max_value = 2500.0
+step = 10.0
+value = 2500.0
+show_percentage = false
+
+[node name="end" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="timeout" from="Speed" to="." method="_on_speed_timeout"]
+[connection signal="body_entered" from="PlayerDetection" to="FiniteStateMachine/Idle" method="_on_player_detection_body_entered"]
+[connection signal="timeout" from="end" to="." method="_on_end_timeout"]

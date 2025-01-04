@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://qcdnbyxmf2jl"]
+
+[ext_resource type="Script" path="res://patrouille.gd" id="1_2fff8"]
+
+[node name="patrouille" type="Node2D"]
+script = ExtResource("1_2fff8")
+group_name = "firstboss"

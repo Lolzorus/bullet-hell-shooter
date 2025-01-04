@@ -1,0 +1,297 @@
+[gd_scene load_steps=22 format=3 uid="uid://bqn6kk4yquqf5"]
+
+[ext_resource type="Script" path="res://player ship/Player ship.gd" id="1_e37lb"]
+[ext_resource type="PackedScene" uid="uid://7q6hcfy041gn" path="res://player ship/player_bullet.tscn" id="2_s8b5k"]
+[ext_resource type="Texture2D" uid="uid://c5854m3jilavm" path="res://player ship/sprite_player_spaceship_up_down.png" id="2_vicac"]
+[ext_resource type="Texture2D" uid="uid://d101nverx5cyj" path="res://player ship/sprite_player_spaceship_exhaust_high.png" id="3_x8171"]
+[ext_resource type="Texture2D" uid="uid://c2rv34bikelmt" path="res://player ship/sprite_player_spaceship_exhaust_low.png" id="4_07jqx"]
+[ext_resource type="Texture2D" uid="uid://driptrolk5h1e" path="res://player ship/laserout1-sheet.png" id="6_7lawy"]
+[ext_resource type="AudioStream" uid="uid://8f8sa7vs05yk" path="res://sound/blaster-2-81267.mp3" id="7_pp1b5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mewwx"]
+atlas = ExtResource("3_x8171")
+region = Rect2(0, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h7koo"]
+atlas = ExtResource("3_x8171")
+region = Rect2(64, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lg43t"]
+atlas = ExtResource("4_07jqx")
+region = Rect2(0, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wieve"]
+atlas = ExtResource("4_07jqx")
+region = Rect2(64, 0, 64, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gsspg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mewwx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h7koo")
+}],
+"loop": true,
+"name": &"exhaust high",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lg43t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wieve")
+}],
+"loop": true,
+"name": &"exhaust low",
+"speed": 12.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7m0xa"]
+atlas = ExtResource("6_7lawy")
+region = Rect2(0, 0, 11, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iar0i"]
+atlas = ExtResource("6_7lawy")
+region = Rect2(11, 0, 11, 10)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nbyqm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7m0xa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iar0i")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="Animation" id="Animation_yj37u"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Ship sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+
+[sub_resource type="Animation" id="Animation_xh28t"]
+resource_name = "down"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Ship sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_vicac")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Ship sprite:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [7]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Ship sprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [3, 2, 1, 0]
+}
+
+[sub_resource type="Animation" id="Animation_4tf2n"]
+resource_name = "standard"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Ship sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_vicac")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Ship sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [3, 4, 4, 3, 2, 3]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Ship sprite:hframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [7]
+}
+
+[sub_resource type="Animation" id="Animation_68ab8"]
+resource_name = "up"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Ship sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_vicac")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Ship sprite:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [7]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Ship sprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [3, 4, 5, 6]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oy72o"]
+_data = {
+"RESET": SubResource("Animation_yj37u"),
+"down": SubResource("Animation_xh28t"),
+"standard": SubResource("Animation_4tf2n"),
+"up": SubResource("Animation_68ab8")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t42u8"]
+bg_color = Color(0.6, 0, 0, 1)
+
+[node name="Player ship" type="CharacterBody2D" node_paths=PackedStringArray("movement")]
+scale = Vector2(0.8, 0.8)
+collision_mask = 56
+script = ExtResource("1_e37lb")
+movement = NodePath("movement")
+bullet = ExtResource("2_s8b5k")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(2.5, -16.25, 38.75, -7.5, 36.25, 10, -7.5, 11.25, -38.75, 23.75, -40, -22.5, -21.25, -21.25)
+
+[node name="Ship sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_vicac")
+hframes = 7
+frame = 2
+
+[node name="exhaust" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-88.5, 1)
+scale = Vector2(0.8, 0.67)
+sprite_frames = SubResource("SpriteFrames_gsspg")
+animation = &"exhaust low"
+
+[node name="laser out" type="AnimatedSprite2D" parent="."]
+position = Vector2(24, 2)
+sprite_frames = SubResource("SpriteFrames_nbyqm")
+frame_progress = 0.855853
+
+[node name="movement" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_oy72o")
+}
+
+[node name="cooldown_timer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="laser_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_pp1b5")
+volume_db = -25.0
+bus = &"fx"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="number of life" type="Label" parent="CanvasLayer"]
+visible = false
+offset_left = 23.0
+offset_top = 540.0
+offset_right = 63.0
+offset_bottom = 563.0
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer"]
+offset_left = 22.0
+offset_top = 604.0
+offset_right = 224.0
+offset_bottom = 631.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_t42u8")
+step = 2.0
+value = 100.0
+show_percentage = false
+
+[node name="scoring" type="Label" parent="CanvasLayer"]
+offset_left = 22.0
+offset_top = 572.0
+offset_right = 74.0
+offset_bottom = 595.0
+text = "Score :"
+
+[node name="invinsibility frame" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="tilting_timer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="invinsibility frame" to="." method="_on_invinsibility_frame_timeout"]
+[connection signal="timeout" from="tilting_timer" to="." method="_on_tilting_timer_timeout"]

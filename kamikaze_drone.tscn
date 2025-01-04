@@ -1,0 +1,142 @@
+[gd_scene load_steps=21 format=3 uid="uid://b7nu2t3f1car"]
+
+[ext_resource type="Script" path="res://KamikazeDrone.gd" id="1_grt70"]
+[ext_resource type="Texture2D" uid="uid://d4ex1mmtrsbmx" path="res://enemies/kamikaze-sheet.png" id="2_2f8v3"]
+[ext_resource type="Texture2D" uid="uid://c7j3m5qrrua3f" path="res://enemies/explosion-sheet.png" id="3_0tthj"]
+[ext_resource type="AudioStream" uid="uid://ccdmyg1fpl1q5" path="res://sound/medium-explosion-40472.mp3" id="4_x5k6x"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ntdsm"]
+atlas = ExtResource("2_2f8v3")
+region = Rect2(0, 0, 226, 103)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t8ifa"]
+atlas = ExtResource("2_2f8v3")
+region = Rect2(226, 0, 226, 103)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_obegl"]
+atlas = ExtResource("2_2f8v3")
+region = Rect2(452, 0, 226, 103)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cqy48"]
+atlas = ExtResource("2_2f8v3")
+region = Rect2(678, 0, 226, 103)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pvu4m"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ntdsm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t8ifa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_obegl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cqy48")
+}],
+"loop": true,
+"name": &"default",
+"speed": 25.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_32ddf"]
+size = Vector2(91, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dsphb"]
+size = Vector2(92, 29)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_awaba"]
+size = Vector2(2912, 1372)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wg8ry"]
+atlas = ExtResource("3_0tthj")
+region = Rect2(0, 0, 400, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jrj7a"]
+atlas = ExtResource("3_0tthj")
+region = Rect2(400, 0, 400, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b2eth"]
+atlas = ExtResource("3_0tthj")
+region = Rect2(800, 0, 400, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bd5vt"]
+atlas = ExtResource("3_0tthj")
+region = Rect2(1200, 0, 400, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lc1ah"]
+atlas = ExtResource("3_0tthj")
+region = Rect2(1600, 0, 400, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_optd5"]
+atlas = ExtResource("3_0tthj")
+region = Rect2(2000, 0, 400, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2sxna"]
+atlas = ExtResource("3_0tthj")
+region = Rect2(2400, 0, 400, 300)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_or2fi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wg8ry")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrj7a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b2eth")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bd5vt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lc1ah")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_optd5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2sxna")
+}],
+"loop": false,
+"name": &"default",
+"speed": 15.0
+}]
+
+[node name="KamikazeDrone" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("1_grt70")
+death_sound = ExtResource("4_x5k6x")
+
+[node name="SpriteKamikaze" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_pvu4m")
+
+[node name="HitBox" type="CollisionShape2D" parent="."]
+position = Vector2(-5.5, 2)
+shape = SubResource("RectangleShape2D_32ddf")
+
+[node name="CollisionToPlayer" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionToPlayer"]
+position = Vector2(-6, 2.5)
+shape = SubResource("RectangleShape2D_dsphb")
+
+[node name="PlayerDetection" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
+position = Vector2(-6, -4)
+shape = SubResource("RectangleShape2D_awaba")
+
+[node name="explosion1" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_or2fi")
+
+[connection signal="body_entered" from="CollisionToPlayer" to="." method="_on_collision_to_player_body_entered"]
+[connection signal="body_entered" from="PlayerDetection" to="." method="_on_player_detection_body_entered"]
+[connection signal="animation_finished" from="explosion1" to="." method="_on_explosion_1_animation_finished"]

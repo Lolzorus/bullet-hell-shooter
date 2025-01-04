@@ -1,0 +1,51 @@
+[gd_scene load_steps=11 format=3 uid="uid://dncx41mmmqdmk"]
+
+[ext_resource type="Script" path="res://enemy spawner lvl 1.gd" id="1_174gj"]
+[ext_resource type="PackedScene" uid="uid://b7nu2t3f1car" path="res://kamikaze_drone.tscn" id="2_n3wx0"]
+[ext_resource type="PackedScene" uid="uid://cqywo1sihb75m" path="res://enemi_zig_zag.tscn" id="3_n5jva"]
+[ext_resource type="PackedScene" uid="uid://cy5cx4p3xjh4" path="res://random_shooter.tscn" id="4_ycamq"]
+[ext_resource type="PackedScene" uid="uid://c2wnesn18dl7j" path="res://circle_enemy.tscn" id="5_l04ai"]
+[ext_resource type="PackedScene" uid="uid://cgfyl20ymm1f1" path="res://z_enemy.tscn" id="6_nxfbf"]
+[ext_resource type="PackedScene" uid="uid://cwk16krkfvbmc" path="res://enemy_tower.tscn" id="7_fimpp"]
+[ext_resource type="PackedScene" uid="uid://dfks1k6h28jkf" path="res://weapon_power_up.tscn" id="8_hth8y"]
+[ext_resource type="PackedScene" uid="uid://ded4ncrvr0dom" path="res://heal.tscn" id="9_v7kjl"]
+[ext_resource type="PackedScene" uid="uid://i4vks5xcjhnq" path="res://boss.tscn" id="10_ivh4k"]
+
+[node name="enemy spawner lvl 1" type="Node2D"]
+script = ExtResource("1_174gj")
+kamikaze_node = ExtResource("2_n3wx0")
+zigzag_node = ExtResource("3_n5jva")
+random_node = ExtResource("4_ycamq")
+circle_node = ExtResource("5_l04ai")
+z_node = ExtResource("6_nxfbf")
+tower_3_shoot = ExtResource("7_fimpp")
+weapon_bonus = ExtResource("8_hth8y")
+heal = ExtResource("9_v7kjl")
+boss_node = ExtResource("10_ivh4k")
+
+[node name="WaveTimer" type="Timer" parent="."]
+wait_time = 2.5
+
+[node name="WaveNumber" type="Label" parent="."]
+offset_left = 21.0
+offset_top = 16.0
+offset_right = 72.0
+offset_bottom = 39.0
+text = "Wave :"
+
+[node name="SpawnTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.25
+autostart = true
+
+[node name="enemy_spawn" type="Label" parent="."]
+visible = false
+offset_left = 433.0
+offset_top = 600.0
+offset_right = 727.0
+offset_bottom = 639.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "ENEMY SPAWN PAUSED"
+
+[connection signal="timeout" from="WaveTimer" to="." method="_on_wave_timer_timeout"]
